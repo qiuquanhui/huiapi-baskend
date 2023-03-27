@@ -31,6 +31,16 @@ public class User implements Serializable {
     private String userAccount;
 
     /**
+     * 许可证
+     */
+    private String accessKey;
+
+    /**
+     * 密钥
+     */
+    private String secretKey;
+
+    /**
      * 用户头像
      */
     private String userAvatar;
