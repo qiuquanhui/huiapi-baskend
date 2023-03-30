@@ -10,8 +10,6 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.hui.huiapiclientsdk.entity.User;
 import com.hui.huiapiclientsdk.utils.SignUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +19,7 @@ import java.util.Map;
  **/
 public class huiApiClient {
 
-    public static final String url = "http://localhost:8123/api/name/";
+    public static final String GATEWAY_HOST = "http://localhost:8090";
 
     //许可证
     private String accessKey;
@@ -55,26 +53,26 @@ public class huiApiClient {
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("name", name);
 
-        String result = HttpUtil.get(url, paramMap);
+        String result = HttpUtil.get(GATEWAY_HOST + "/api/name/", paramMap);
         System.out.println(result);
         return result;
     }
 
-    public String getNameByPost(@RequestParam String name) {
+    public String getNameByPost(String name) {
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("name", name);
 
-        String result = HttpUtil.post(url, paramMap);
+        String result = HttpUtil.post(GATEWAY_HOST +"/api/name/", paramMap);
         System.out.println(result);
         return result;
 
     }
 
-    public String getUsernameByPost(@RequestBody User user) {
+    public String getUsernameByPost(User user) {
 
         String json = JSONUtil.toJsonStr(user);
 
-        HttpResponse httpResponse = HttpRequest.post("http://localhost:8123/api/name/user")
+        HttpResponse httpResponse = HttpRequest.post(GATEWAY_HOST + "/api/name/user")
                 .addHeaders(getHeaderMap(json))
                 .body(json)
                 .execute();

@@ -296,6 +296,7 @@ public class InterfaceInfoController {
         com.hui.huiapiclientsdk.client.huiApiClient tempClient = new huiApiClient(accessKey, secretKey);
         Gson gson = new Gson();
         com.hui.huiapiclientsdk.entity.User user = gson.fromJson(userRequestParams, com.hui.huiapiclientsdk.entity.User.class);
+        //todo 应该根据数据库中的url进行动态调用
         String usernameByPost = tempClient.getUsernameByPost(user);
         return ResultUtils.success(usernameByPost);
     }
