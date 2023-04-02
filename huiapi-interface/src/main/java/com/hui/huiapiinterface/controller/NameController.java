@@ -17,7 +17,6 @@
 package com.hui.huiapiinterface.controller;
 
 import com.hui.huiapiclientsdk.entity.User;
-import com.hui.huiapiclientsdk.utils.SignUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,40 +40,6 @@ public class NameController {
 
     @PostMapping("/user")
     public String getUserNameByPost(@RequestBody User user, HttpServletRequest request){
-        //从请求头中取出数据
-        String accessKey = request.getHeader("accessKey");
-        String nonce = request.getHeader("nonce");
-        String timestamp = request.getHeader("timestamp");
-        String sign = request.getHeader("sign");
-        String body = request.getHeader("body");
-        //todo 从数据库中查询是否已分配给用户
-        if (!accessKey.equals("hui")){
-            throw new RuntimeException("无权限");
-        }
-
-        //todo 校验随机数
-        if (Long.parseLong(nonce) > 10000){
-            throw new RuntimeException("无权限");
-        }
-
-        //todo 时间与当前时间不能超过五分钟
-       // if (timestamp){}
-
-        //todo 实际情况是从数据库中查出
-        String serverSign = SignUtils.getSign(body, "abcdefg");
-
-
-        if (!accessKey.equals("hui") ){
-            throw new RuntimeException("无权限");
-        }
-
-        //签名认证
-        if (!sign.equals(serverSign)){
-            throw  new RuntimeException("无权限");
-        }
-
-
         return "Post 你的名字是" + user.getUsername();
     }
-
 }

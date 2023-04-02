@@ -1,7 +1,7 @@
 package com.yupi.project.mapper;
 
-import com.yupi.project.model.entity.InterfaceInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.quanhui.huiapicommon.model.entity.InterfaceInfo;
 
 /**
 * @author 邱权辉
@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.yupi.project.model.entity.InterfaceInfo
 */
 public interface InterfaceInfoMapper extends BaseMapper<InterfaceInfo> {
+
 
 }
 

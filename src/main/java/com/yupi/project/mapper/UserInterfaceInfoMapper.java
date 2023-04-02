@@ -1,7 +1,9 @@
 package com.yupi.project.mapper;
 
-import com.yupi.project.model.entity.UserInterfaceInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.quanhui.huiapicommon.model.entity.UserInterfaceInfo;
+
+import java.util.List;
 
 /**
 * @author 邱权辉
@@ -11,6 +13,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface UserInterfaceInfoMapper extends BaseMapper<UserInterfaceInfo> {
 
+    List<UserInterfaceInfo> listTopInvokeInterfaceInfo(int limit);
 }
 
 
