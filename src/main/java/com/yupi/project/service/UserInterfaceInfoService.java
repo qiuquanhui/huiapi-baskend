@@ -23,4 +23,6 @@ public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
     */
     Boolean invokeCount(Long interfaceInfoId,long userId);
 
+    //获取当前用户接口信息，没有就新增
+    UserInterfaceInfo getUserInterfaceInfo(long interfaceInfoId, long userId);
 }

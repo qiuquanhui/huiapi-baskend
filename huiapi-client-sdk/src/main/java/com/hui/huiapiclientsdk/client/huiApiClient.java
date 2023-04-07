@@ -82,4 +82,19 @@ public class huiApiClient {
         System.out.println(result);
         return result;
     }
+
+    //调加一个调用方法
+    public String getMotivationalWords() {
+
+
+        HttpResponse httpResponse = HttpRequest.post(GATEWAY_HOST + "/api/words/motivation")
+                .addHeaders(getHeaderMap("1"))
+                .body("1")
+                .execute();
+
+        System.out.println(httpResponse.getStatus());
+        String result = httpResponse.body();
+        System.out.println(result);
+        return result;
+    }
 }

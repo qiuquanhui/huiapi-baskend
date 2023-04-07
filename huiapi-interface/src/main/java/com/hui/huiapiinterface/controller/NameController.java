@@ -20,6 +20,7 @@ import com.hui.huiapiclientsdk.entity.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Random;
 
 /**
  * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
@@ -28,18 +29,24 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/name")
 public class NameController {
 
+    String[] motivationalWords = {"君子一言，驷马难追", "花自花香，蝴蝶自来", "你尽管努力，剩下的交给天意"};
+
     @GetMapping("/get")
-    public String getNameByGet(String name){
+    public String getNameByGet(String name) {
         return "Get 你的名字是" + name;
     }
 
     @PostMapping("/post")
-    public String getNameByPost(@RequestParam String name){
+    public String getNameByPost(@RequestParam String name) {
         return "Post 你的名字是" + name;
     }
 
     @PostMapping("/user")
-    public String getUserNameByPost(@RequestBody User user, HttpServletRequest request){
-        return "Post 你的名字是" + user.getUsername();
+    public String getUserNameByPost(@RequestBody User user, HttpServletRequest request) {
+
+        //1.获取一个 0 - 2 的随机数
+        Random random = new Random();
+        int randomNumber = random.nextInt(3);
+        return motivationalWords[randomNumber] + user.getUsername();
     }
 }

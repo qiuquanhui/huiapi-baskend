@@ -6,6 +6,7 @@ package com.hui.huiapigateway;/**
 import com.hui.huiapiclientsdk.utils.SignUtils;
 import com.quanhui.huiapicommon.model.entity.InterfaceInfo;
 import com.quanhui.huiapicommon.model.entity.User;
+import com.quanhui.huiapicommon.model.entity.UserInterfaceInfo;
 import com.quanhui.huiapicommon.service.InnerInterfaceInfoService;
 import com.quanhui.huiapicommon.service.InnerUserInterfaceInfoService;
 import com.quanhui.huiapicommon.service.InnerUserService;
@@ -34,8 +35,6 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
- *
  * @author: shuaihui
  **/
 @Slf4j
@@ -66,18 +65,18 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         String path = INTERFACE_HOST + request.getPath().value();
         String method = request.getMethod().toString();
-        log.info("请求唯一标识 "+request.getId());
-        log.info("请求路径 "+request.getPath().value());
-        log.info("请求方法 "+request.getMethod());
-        log.info("请求参数 "+request.getQueryParams());
-        log.info("请求来源地址 "+request.getRemoteAddress());
+        log.info("请求唯一标识 " + request.getId());
+        log.info("请求路径 " + request.getPath().value());
+        log.info("请求方法 " + request.getMethod());
+        log.info("请求参数 " + request.getQueryParams());
+        log.info("请求来源地址 " + request.getRemoteAddress());
 
         String sourceAddress = request.getLocalAddress().getHostString();
 
         ServerHttpResponse response = exchange.getResponse();
 
 //        2. （黑白名单）
-        if (!IP_WHITE_LIST.contains(sourceAddress)){
+        if (!IP_WHITE_LIST.contains(sourceAddress)) {
             handleNoAuth(response);
         }
 //        3. 用户鉴权（判断 ak、sk 是否合法）
@@ -101,20 +100,20 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
             return handleNoAuth(response);
         }
 
-         if (!accessKey.equals(invokeUser.getAccessKey())){
-             return handleNoAuth(response);
-       }
+        if (!accessKey.equals(invokeUser.getAccessKey())) {
+            return handleNoAuth(response);
+        }
 
-       //校验随机数
+        //校验随机数
         if (Long.parseLong(nonce) > 10000L) {
             return handleNoAuth(response);
         }
 
         // 时间与当前时间不能超过五分钟
         Long currentTime = System.currentTimeMillis() / 1000;
-        Long FIVE_MINUTES= 60 * 5L;
-        if (currentTime - Long.parseLong(timestamp) >= FIVE_MINUTES){
-             return handleNoAuth(response);
+        Long FIVE_MINUTES = 60 * 5L;
+        if (currentTime - Long.parseLong(timestamp) >= FIVE_MINUTES) {
+            return handleNoAuth(response);
         }
 
         // 实际情况中是从数据库中查出 secretKey
@@ -125,7 +124,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         }
 
 
-    // 5. 请求的模拟接口是否存在，以及请求方法是否匹配
+        // 5. 请求的模拟接口是否存在，以及请求方法是否匹配
         InterfaceInfo interfaceInfo = null;
         try {
             interfaceInfo = innerInterfaceInfoService.getInterfaceInfo(path, method);
@@ -136,12 +135,18 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         if (interfaceInfo == null) {
             return handleNoAuth(response);
         }
+        //判断调用次数是否大于0
+        UserInterfaceInfo userInterfaceInfo = innerUserInterfaceInfoService.getUserInterfaceInfo(interfaceInfo.getId(), invokeUser.getId());
+        if (userInterfaceInfo.getLeftNum() > 0) {
+
 //        6. 请求转发，调用模拟接口
 //        7. 响应日志
 //        8. 调用成功，接口调用次数 + 1
 //        9. 调用失败，返回一个规范的错误码
-        //6-9都在下面的方法中执行。
-        return handleResponse(exchange,chain,interfaceInfo.getId(), invokeUser.getId());
+            //6-9都在下面的方法中执行。
+            return handleResponse(exchange, chain, interfaceInfo.getId(), invokeUser.getId());
+        }
+        return handleInvokeError(response);
     }
 
 

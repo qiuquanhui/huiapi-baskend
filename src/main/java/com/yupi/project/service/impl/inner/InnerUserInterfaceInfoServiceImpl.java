@@ -1,5 +1,6 @@
 package com.yupi.project.service.impl.inner;
 
+import com.quanhui.huiapicommon.model.entity.UserInterfaceInfo;
 import com.quanhui.huiapicommon.service.InnerUserInterfaceInfoService;
 import com.yupi.project.service.UserInterfaceInfoService;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -17,5 +18,12 @@ public class InnerUserInterfaceInfoServiceImpl implements InnerUserInterfaceInfo
     @Override
     public boolean invokeCount(long interfaceInfoId, long userId) {
         return userInterfaceInfoService.invokeCount(interfaceInfoId, userId);
+    }
+
+    //获取当前用户的信息
+    @Override
+    public UserInterfaceInfo getUserInterfaceInfo(long interfaceInfoId, long userId) {
+
+        return userInterfaceInfoService.getUserInterfaceInfo(interfaceInfoId, userId);
     }
 }

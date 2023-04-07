@@ -17,7 +17,12 @@ public class SignUtils {
     public static String getSign(String body, String secretKey) {
         Digester md5 = new Digester(DigestAlgorithm.SHA256);
 
-        String content = body +  '.' + secretKey;
+        String content = null;
+        if (body !=null){
+           content = body +  '.' + secretKey;
+        }else {
+            return md5.digestHex(secretKey);
+        }
 
         return md5.digestHex(content);
 
