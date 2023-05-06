@@ -1,6 +1,6 @@
-package com.quanhui.huiapicommon.model.vo;
+package com.quanhui.project.model.vo;
 
-import com.quanhui.huiapicommon.model.entity.Post;
+import com.quanhui.project.model.entity.Post;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

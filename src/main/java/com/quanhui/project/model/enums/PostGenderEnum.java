@@ -1,24 +1,24 @@
-package com.quanhui.huiapicommon.model.enums;
+package com.quanhui.project.model.enums;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 接口状态枚举
+ * 帖子性别枚举
  *
  * @author quanhui
  */
-public enum InterfaceInfoStatusEnum {
+public enum PostGenderEnum {
 
-    ONLINE("发布",1),
-    OFFLINE("下线",0);
+    MALE("男", 0),
+    FEMALE("女", 1);
 
     private final String text;
 
     private final int value;
 
-    InterfaceInfoStatusEnum(String text, int value) {
+    PostGenderEnum(String text, int value) {
         this.text = text;
         this.value = value;
     }

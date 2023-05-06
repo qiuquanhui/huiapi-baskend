@@ -1,4 +1,4 @@
-package com.quanhui.huiapicommon.model.enums;
+package com.quanhui.project.model.enums;
 
 import java.util.Arrays;
 import java.util.List;
